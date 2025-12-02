@@ -1,0 +1,57 @@
+erDiagram
+    USER {
+        Int id PK
+        String name
+        String email
+        String phone
+        Role role
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    VEHICLE {
+        Int id PK
+        String registrationNumber
+        String make
+        String model
+        Int year
+        Int mileage
+        VehicleStatus status
+        String location
+        String notes
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    RESERVATION {
+        Int id PK
+        Int vehicleId FK
+        Int userId FK
+        DateTime startDatetime
+        DateTime endDatetime
+        String purpose
+        ReservationStatus status
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    MAINTENANCE {
+        Int id PK
+        Int vehicleId FK
+        DateTime date
+        String description
+        Float cost
+        String performedBy
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    %% Relationships
+    USER ||--o{ RESERVATION : "has"
+    VEHICLE ||--o{ RESERVATION : "has"
+    VEHICLE ||--o{ MAINTENANCE : "has"
+
+    %% Enums as note (Mermaid ER doesn't support enums natively)
+    %% VehicleStatus: AVAILABLE, RESERVED, MAINTENANCE
+    %% ReservationStatus: ACTIVE, COMPLETED, CANCELLED
+    %% Role: USER, ADMIN
