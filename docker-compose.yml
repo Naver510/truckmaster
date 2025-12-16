@@ -24,5 +24,22 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     depends_on:
      - db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: postgresql://admin:admin123@db:5432/taskmaster_db?schema=public
+    container_name: task_backend
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      API_KEY: ${API_KEY:-dev-key}
+      DATABASE_URL: postgresql://admin:admin123@db:5432/taskmaster_db?schema=public
+    depends_on:
+      - db
+    command: ["node", "dist/src/main.js"]
 volumes:
   postgres_data:
